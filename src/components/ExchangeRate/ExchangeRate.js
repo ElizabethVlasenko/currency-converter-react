@@ -9,9 +9,9 @@ export default function ExchangeRate() {
   }, []);
   return (
     <div>
-      USD to UAH `${CurrencyConverter.USDtoUAH}` UAH to USD `$
-      {CurrencyConverter.UAHtoUSD}` EUR to UAH `${CurrencyConverter.EURtoUAH}`
-      UAH to EUR `${CurrencyConverter.UAHtoEUR}`
+      USD to UAH {CurrencyConverter.USDtoUAH} UAH to USD
+      {CurrencyConverter.UAHtoUSD} EUR to UAH {CurrencyConverter.EURtoUAH} UAH
+      to EUR {CurrencyConverter.UAHtoEUR}
     </div>
   );
 }

@@ -6,6 +6,13 @@ export default function Navigation() {
   return (
     <div>
       Navigation<ExchangeRate></ExchangeRate>
+      <button
+        onClick={() => {
+          localStorage.removeItem("expirationDate");
+        }}
+      >
+        Remove expirationDate
+      </button>
     </div>
   );
 }
