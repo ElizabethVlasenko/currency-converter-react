@@ -4,6 +4,10 @@ import {
   GET_EUR_EXCHANGE_RATE,
   GET_USD_EXCHANGE_RATE,
   SET_LOADING,
+  SET_USD_VALUE,
+  SET_USD_UAH_VALUE,
+  SET_EUR_UAH_VALUE,
+  SET_EUR_VALUE,
 } from "../types";
 import { CurrencyConverterReducer } from "./CurrencyConverterReducer";
 import { CurrencyConverterContext } from "./CurrencyConverterContext";
@@ -30,15 +34,16 @@ export const CurrencyConverterState = ({ children }) => {
       "https://cors-anywhere.herokuapp.com/https://free.currconv.com/api/v7/convert?q=USD_UAH,UAH_USD&compact=ultra&apiKey=" +
         API_KEY
     );
-
-    localStorage.setItem("USDtoUAH", response.data.USD_UAH);
-    localStorage.setItem("UAHtoUSD", response.data.UAH_USD);
+    const data = dataToThreeFixed(response.data);
+    localStorage.setItem("USDtoUAH", data.USD_UAH);
+    localStorage.setItem("UAHtoUSD", data.UAH_USD);
 
     dispatch({
       type: GET_USD_EXCHANGE_RATE,
-      payload: { ...response.data },
+      payload: { ...data },
     });
   };
+
   const getLocalUSDExchangeRate = () => {
     let data = {
       USD_UAH: localStorage.getItem("USDtoUAH"),
@@ -50,22 +55,32 @@ export const CurrencyConverterState = ({ children }) => {
     });
   };
 
+  const dataToThreeFixed = (data) => {
+    let result = {};
+    for (const [key, value] of Object.entries(data)) {
+      result[key] = Number(parseFloat(value, 10).toFixed(3));
+    }
+    return result;
+  };
+
   const getEURExchangeRate = async () => {
     const response = await axios.get(
       "https://cors-anywhere.herokuapp.com/https://free.currconv.com/api/v7/convert?q=EUR_UAH,UAH_EUR&compact=ultra&apiKey=" +
         API_KEY
     );
+    const data = dataToThreeFixed(response.data);
 
-    localStorage.setItem("EURtoUAH", response.data.EUR_UAH);
-    localStorage.setItem("UAHtoEUR", response.data.UAH_EUR);
+    localStorage.setItem("EURtoUAH", data.EUR_UAH);
+    localStorage.setItem("UAHtoEUR", data.UAH_EUR);
 
     dispatch({
       type: GET_EUR_EXCHANGE_RATE,
-      payload: { ...response.data },
+      payload: { ...data },
     });
   };
 
   const getLocalEURExchangeRate = () => {
+    setLoading();
     let data = {
       EUR_UAH: localStorage.getItem("EURtoUAH"),
       UAH_EUR: localStorage.getItem("UAHtoEUR"),
@@ -83,6 +98,7 @@ export const CurrencyConverterState = ({ children }) => {
   };
 
   const getCurrencyExchangeRate = async () => {
+    setLoading();
     let localStorageExpDate = Date.parse(
       localStorage.getItem("expirationDate")
     );
@@ -94,17 +110,6 @@ export const CurrencyConverterState = ({ children }) => {
       const expiresIn = 3600000;
       const expirationDate = new Date(new Date().getTime() + expiresIn);
       localStorage.setItem("expirationDate", expirationDate);
-
-      // autoRefresh(expiresIn);
-      // } else if (isNaN(localStorageExpDate)) {
-      //   console.log("localStorageExpDate == null");
-      //   setLoading();
-      //   getEURExchangeRate();
-      //   getUSDExchangeRate();
-      //   const expiresIn = 3600000; //1 hour
-      //   const expirationDate = new Date(new Date().getTime() + expiresIn);
-      //   localStorage.setItem("expirationDate", expirationDate);
-      //   // autoRefresh(expiresIn);
     } else {
       setLoading();
       getLocalUSDExchangeRate();
@@ -112,13 +117,42 @@ export const CurrencyConverterState = ({ children }) => {
     }
   };
 
-  // const autoRefresh = (time) => {
-  //   return setTimeout(() => {
-  //     console.log(time);
-  //     getCurrencyExchangeRate();
-  //     console.log("refreshed!");
-  //   }, time * 1000);
-  // };
+  const toCurrencyFormat = (number) => {
+    if (number.charAt(0) === "0") {
+      number = number.substring(1);
+      return number;
+    } else if (number <= 0) {
+      return 0;
+    } else return number;
+  };
+
+  const setUSD = (e) => {
+    dispatch({
+      type: SET_USD_VALUE,
+      payload: toCurrencyFormat(e.target.value),
+    });
+  };
+
+  const setUSD_UAH = (e) => {
+    dispatch({
+      type: SET_USD_UAH_VALUE,
+      payload: toCurrencyFormat(e.target.value),
+    });
+  };
+
+  const setEUR = (e) => {
+    dispatch({
+      type: SET_EUR_VALUE,
+      payload: toCurrencyFormat(e.target.value),
+    });
+  };
+
+  const setEUR_UAH = (e) => {
+    dispatch({
+      type: SET_EUR_UAH_VALUE,
+      payload: toCurrencyFormat(e.target.value),
+    });
+  };
 
   const {
     USDtoUAH,
@@ -145,6 +179,10 @@ export const CurrencyConverterState = ({ children }) => {
         EUR_UAH,
         loading,
         getCurrencyExchangeRate,
+        setUSD,
+        setUSD_UAH,
+        setEUR,
+        setEUR_UAH,
       }}
     >
       {children}

@@ -4,14 +4,51 @@ import "./ExchangeRate.scss";
 
 export default function ExchangeRate() {
   const CurrencyConverter = useContext(CurrencyConverterContext);
+
+  const toThreeDecimalPlaces = (data) => {
+    return parseFloat(data, 10).toFixed(3);
+  };
+
   useEffect(() => {
     CurrencyConverter.getCurrencyExchangeRate();
   }, []);
+
   return (
-    <div>
-      USD to UAH {CurrencyConverter.USDtoUAH} UAH to USD
-      {CurrencyConverter.UAHtoUSD} EUR to UAH {CurrencyConverter.EURtoUAH} UAH
-      to EUR {CurrencyConverter.UAHtoEUR}
+    <div className="exchangeRate_container">
+      <ul className="exchangeRate_list">
+        <li className="exchangeRate_item">
+          USD to UAH{" "}
+          {CurrencyConverter.isLoading ? (
+            <div class="exchangeRate_loader"></div>
+          ) : (
+            toThreeDecimalPlaces(CurrencyConverter.USDtoUAH)
+          )}
+        </li>
+        <li className="exchangeRate_item">
+          UAH to USD{" "}
+          {CurrencyConverter.isLoading ? (
+            <div class="exchangeRate_loader"></div>
+          ) : (
+            toThreeDecimalPlaces(CurrencyConverter.UAHtoUSD)
+          )}
+        </li>
+        <li className="exchangeRate_item">
+          EUR to UAH{" "}
+          {CurrencyConverter.isLoading ? (
+            <div class="exchangeRate_loader"></div>
+          ) : (
+            toThreeDecimalPlaces(CurrencyConverter.EURtoUAH)
+          )}
+        </li>
+        <li className="exchangeRate_item">
+          UAH to EUR{" "}
+          {CurrencyConverter.isLoading ? (
+            <div class="exchangeRate_loader"></div>
+          ) : (
+            toThreeDecimalPlaces(CurrencyConverter.UAHtoEUR)
+          )}
+        </li>
+      </ul>
     </div>
   );
 }

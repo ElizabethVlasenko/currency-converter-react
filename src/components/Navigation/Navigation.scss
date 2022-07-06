@@ -1,0 +1,18 @@
+.navigation_container {
+  display: flex;
+  justify-content: space-between;
+  background-color: #79c942;
+  color: #fff;
+  padding: 0 1rem;
+}
+// BDE596
+
+.navigation_list {
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0.5rem;
+}

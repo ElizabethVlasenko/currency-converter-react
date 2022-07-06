@@ -1,0 +1,50 @@
+.currencyConversion_container {
+  background-color: #cae6b2;
+  padding: 20px 150px;
+}
+
+.currencyConversion_header {
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.currencyConversion_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.currencyConversion_title {
+  color: #fff;
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-weight: bold;
+  font-size: medium;
+}
+
+.currencyConversion_USD,
+.currencyConversion_EUR {
+  background-color: #8ed15e;
+  border: #fff 2px solid;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.currencyConversion_label {
+  margin-right: 10px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.currencyConversion_input {
+  border: #fff 2px solid;
+  border-radius: 15px;
+  padding: 5px 10px;
+  color: #27490e;
+  font-size: 15px;
+
+  & + .currencyConversion_label {
+    margin-left: 50px;
+  }
+}

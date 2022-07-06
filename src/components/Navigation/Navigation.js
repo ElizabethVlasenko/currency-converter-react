@@ -4,15 +4,20 @@ import "./Navigation.scss";
 
 export default function Navigation() {
   return (
-    <div>
-      Navigation<ExchangeRate></ExchangeRate>
-      <button
+    <div className="navigation_container">
+      <ul className="navigation_list">
+        <li className="navigation_item">Home</li>
+        <li className="navigation_item">Exchange</li>
+        <li className="navigation_item">About US</li>
+      </ul>
+      <ExchangeRate></ExchangeRate>
+      {/* <button
         onClick={() => {
           localStorage.removeItem("expirationDate");
         }}
       >
         Remove expirationDate
-      </button>
+      </button> */}
     </div>
   );
 }
