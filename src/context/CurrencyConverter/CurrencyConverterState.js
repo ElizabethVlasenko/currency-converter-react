@@ -1,4 +1,4 @@
-import React, { useReducer } from "reinspect";
+import React, { useReducer } from "react";
 import axios from "axios";
 import {
   GET_EUR_EXCHANGE_RATE,

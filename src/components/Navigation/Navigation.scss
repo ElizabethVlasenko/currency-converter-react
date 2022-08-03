@@ -1,18 +1,61 @@
 .navigation_container {
+  position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: #79c942;
   color: #fff;
-  padding: 0 1rem;
+  height: 50px;
+  z-index: 20;
 }
-// BDE596
+
+.navigation_alert {
+  height: 25px;
+  width: 100%;
+  position: absolute;
+  top: 50px;
+  background-color: #c94242;
+  z-index: 10;
+  transition: all 1s ease-in-out;
+  color: #fff;
+
+  & p {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+
+  & a {
+    outline: none;
+    color: #fff;
+  }
+
+  & span {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  &.alert_close {
+    top: 0;
+    opacity: 0;
+  }
+}
 
 .navigation_list {
-  width: 25%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  height: 100%;
   list-style-type: none;
   margin: 0;
-  padding: 0.5rem;
+  padding: 0 0.5rem 0 0;
+}
+
+.navigation_item {
+  height: 100%;
+  width: 150px;
+  box-sizing: border-box;
+  padding-top: 15px;
+  border-right: #fff 1px solid;
+  text-align: center;
+  display: inline-block;
 }
