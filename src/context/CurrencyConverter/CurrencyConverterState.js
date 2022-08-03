@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer } from "reinspect";
 import axios from "axios";
 import {
   GET_EUR_EXCHANGE_RATE,
@@ -8,9 +8,15 @@ import {
   SET_USD_UAH_VALUE,
   SET_EUR_UAH_VALUE,
   SET_EUR_VALUE,
+  SET_FIRST_CURRENCY,
+  SET_FIRST_CURRENCY_NAME,
+  SET_SECOND_CURRENCY_NAME,
+  SET_SECOND_CURRENCY,
+  GET_CUSTOM_EXCHANGE_RATE,
 } from "../types";
 import { CurrencyConverterReducer } from "./CurrencyConverterReducer";
 import { CurrencyConverterContext } from "./CurrencyConverterContext";
+import data from "./currencies.json";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -25,7 +31,16 @@ export const CurrencyConverterState = ({ children }) => {
     EUR: 1,
     EUR_UAH: 1,
     loading: false,
+    allCurrencies: { ...data },
+    firstCurrencyName: "ALL",
+    secondCurrencyName: "ALL",
+    firstCurrency: 1,
+    secondCurrency: 1,
+    firstToSecond: 1,
+    secondToFirst: 1,
   };
+
+  // console.log(initialState);
 
   const [state, dispatch] = useReducer(CurrencyConverterReducer, initialState);
 
@@ -102,7 +117,6 @@ export const CurrencyConverterState = ({ children }) => {
     let localStorageExpDate = Date.parse(
       localStorage.getItem("expirationDate")
     );
-
     if (isNaN(localStorageExpDate) || localStorageExpDate < new Date()) {
       setLoading();
       getEURExchangeRate();
@@ -126,31 +140,130 @@ export const CurrencyConverterState = ({ children }) => {
     } else return number;
   };
 
+  const toFixedFloat = (data) => {
+    return parseFloat(data, 10).toFixed(3);
+  };
+
   const setUSD = (e) => {
+    let USD = toCurrencyFormat(e.target.value);
+    let USD_UAH = toFixedFloat(state.USDtoUAH * USD);
     dispatch({
       type: SET_USD_VALUE,
-      payload: toCurrencyFormat(e.target.value),
+      payload: { USD, USD_UAH },
     });
   };
 
   const setUSD_UAH = (e) => {
+    let USD_UAH = toCurrencyFormat(e.target.value);
+    let USD = toFixedFloat(state.UAHtoUSD * USD_UAH);
     dispatch({
       type: SET_USD_UAH_VALUE,
-      payload: toCurrencyFormat(e.target.value),
+      payload: { USD, USD_UAH },
     });
   };
 
   const setEUR = (e) => {
+    let EUR = toCurrencyFormat(e.target.value);
+    let EUR_UAH = toFixedFloat(state.EURtoUAH * EUR);
     dispatch({
       type: SET_EUR_VALUE,
-      payload: toCurrencyFormat(e.target.value),
+      payload: { EUR, EUR_UAH },
     });
   };
 
   const setEUR_UAH = (e) => {
+    let EUR_UAH = toCurrencyFormat(e.target.value);
+    let EUR = toFixedFloat(state.EURtoUAH * EUR_UAH);
     dispatch({
       type: SET_EUR_UAH_VALUE,
-      payload: toCurrencyFormat(e.target.value),
+      payload: { EUR, EUR_UAH },
+    });
+  };
+
+  const getCustomCurrencyExchangeRate = async (e) => {
+    setLoading();
+    console.log(state.firstCurrency);
+    if (e.target.name === "firstCurrency") {
+      setFirstCurrencyName(e.target.value);
+      let exchangeRate = await getCustomExchangeRate(
+        e.target.value,
+        state.secondCurrencyName
+      );
+      setFirstCurrency(state.firstCurrency, exchangeRate.firstToSecond);
+    } else if (e.target.name === "secondCurrency") {
+      setSecondCurrencyName(e.target.value);
+      let exchangeRate = await getCustomExchangeRate(
+        state.firstCurrencyName,
+        e.target.value
+      );
+      setFirstCurrency(state.firstCurrency, exchangeRate.firstToSecond);
+    } else {
+      console.log("Error. e.target.name = ", e.target.name);
+    }
+  };
+
+  const getCustomExchangeRate = async (
+    firstCurrencyName,
+    secondCurrencyName
+  ) => {
+    console.log(firstCurrencyName, secondCurrencyName);
+    const response = await axios.get(
+      `https://cors-anywhere.herokuapp.com/https://free.currconv.com/api/v7/convert?q=${firstCurrencyName}_${secondCurrencyName},${secondCurrencyName}_${firstCurrencyName}&compact=ultra&apiKey=${API_KEY}`
+    );
+    const data = dataToThreeFixed(response.data);
+    const firstToSecond = data[firstCurrencyName + "_" + secondCurrencyName];
+    const secondToFirst = data[secondCurrencyName + "_" + firstCurrencyName];
+    console.log(data);
+    dispatch({
+      type: GET_CUSTOM_EXCHANGE_RATE,
+      payload: { firstToSecond, secondToFirst },
+    });
+    return { firstToSecond, secondToFirst };
+  };
+
+  const setFirstCurrencyName = (firstCurrencyName) => {
+    dispatch({
+      type: SET_FIRST_CURRENCY_NAME,
+      payload: { firstCurrencyName },
+    });
+  };
+
+  const setSecondCurrencyName = (secondCurrencyName) => {
+    dispatch({
+      type: SET_SECOND_CURRENCY_NAME,
+      payload: { secondCurrencyName },
+    });
+  };
+
+  const setFirstCurrency = (value, firstToSecond = state.firstToSecond) => {
+    console.log(firstToSecond, state.firstToSecond);
+    let firstCurrency;
+    let secondCurrency;
+    if (typeof value === "object" && !Array.isArray(value) && value !== null) {
+      firstCurrency = toCurrencyFormat(value.target.value);
+    } else {
+      firstCurrency = value;
+    }
+    secondCurrency = toFixedFloat(firstToSecond * firstCurrency);
+    console.log(secondCurrency, firstCurrency);
+    dispatch({
+      type: SET_FIRST_CURRENCY,
+      payload: { secondCurrency, firstCurrency },
+    });
+  };
+
+  const setSecondCurrency = (value) => {
+    let firstCurrency;
+    let secondCurrency;
+    if (typeof value === "object" && !Array.isArray(value) && value !== null) {
+      secondCurrency = toCurrencyFormat(value.target.value);
+    } else {
+      secondCurrency = value;
+    }
+    firstCurrency = toFixedFloat(state.secondToFirst * secondCurrency);
+    dispatch({
+      type: SET_SECOND_CURRENCY,
+      payload: { secondCurrency, firstCurrency },
     });
   };
 
@@ -164,6 +277,12 @@ export const CurrencyConverterState = ({ children }) => {
     EUR,
     EUR_UAH,
     loading,
+    allCurrencies,
+    firstCurrency,
+    secondCurrency,
+    firstCurrencyName,
+    secondCurrencyName,
+    firstToSecond,
   } = state;
 
   return (
@@ -178,7 +297,16 @@ export const CurrencyConverterState = ({ children }) => {
         EUR,
         EUR_UAH,
         loading,
+        allCurrencies,
+        firstCurrency,
+        secondCurrency,
+        firstCurrencyName,
+        secondCurrencyName,
+        firstToSecond,
         getCurrencyExchangeRate,
+        getCustomCurrencyExchangeRate,
+        setSecondCurrency,
+        setFirstCurrency,
         setUSD,
         setUSD_UAH,
         setEUR,

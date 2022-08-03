@@ -11,13 +11,6 @@ export default function Navigation() {
         <li className="navigation_item">About US</li>
       </ul>
       <ExchangeRate></ExchangeRate>
-      {/* <button
-        onClick={() => {
-          localStorage.removeItem("expirationDate");
-        }}
-      >
-        Remove expirationDate
-      </button> */}
     </div>
   );
 }

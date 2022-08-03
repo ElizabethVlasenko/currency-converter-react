@@ -1,14 +1,15 @@
 import CurrencyConversion from "./components/CurrencyConversion/CurrencyConversion";
 import Navigation from "./components/Navigation/Navigation";
 import { CurrencyConverterState } from "./context/CurrencyConverter/CurrencyConverterState";
+import { StateInspector } from "reinspect";
 
 function App() {
   return (
     <CurrencyConverterState>
-      <div className="App">
+      <StateInspector className="App">
         <Navigation />
         <CurrencyConversion></CurrencyConversion>
-      </div>
+      </StateInspector>
     </CurrencyConverterState>
   );
 }

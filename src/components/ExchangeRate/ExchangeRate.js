@@ -9,10 +9,6 @@ export default function ExchangeRate() {
     return parseFloat(data, 10).toFixed(3);
   };
 
-  useEffect(() => {
-    CurrencyConverter.getCurrencyExchangeRate();
-  }, []);
-
   return (
     <div className="exchangeRate_container">
       <ul className="exchangeRate_list">

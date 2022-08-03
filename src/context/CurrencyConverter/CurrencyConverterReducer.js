@@ -6,6 +6,11 @@ import {
   SET_USD_UAH_VALUE,
   SET_EUR_VALUE,
   SET_EUR_UAH_VALUE,
+  SET_FIRST_CURRENCY_NAME,
+  SET_SECOND_CURRENCY_NAME,
+  SET_FIRST_CURRENCY,
+  SET_SECOND_CURRENCY,
+  GET_CUSTOM_EXCHANGE_RATE,
 } from "../types";
 
 const handlers = {
@@ -25,23 +30,40 @@ const handlers = {
   }),
   [SET_USD_VALUE]: (state, { payload }) => ({
     ...state,
-    USD: payload,
-    USD_UAH: payload * state.USDtoUAH,
+    ...payload,
   }),
   [SET_USD_UAH_VALUE]: (state, { payload }) => ({
     ...state,
-    USD_UAH: payload,
-    USD: payload * state.UAHtoUSD,
+    ...payload,
   }),
   [SET_EUR_VALUE]: (state, { payload }) => ({
     ...state,
-    EUR: payload,
-    EUR_UAH: payload * state.EURtoUAH,
+    ...payload,
   }),
   [SET_EUR_UAH_VALUE]: (state, { payload }) => ({
     ...state,
-    EUR_UAH: payload,
-    EUR: payload * state.UAHtoEUR,
+    ...payload,
+  }),
+  [SET_FIRST_CURRENCY_NAME]: (state, { payload }) => ({
+    ...state,
+    ...payload,
+  }),
+  [SET_SECOND_CURRENCY_NAME]: (state, { payload }) => ({
+    ...state,
+    ...payload,
+  }),
+  [SET_FIRST_CURRENCY]: (state, { payload }) => ({
+    ...state,
+    ...payload,
+    loading: false,
+  }),
+  [SET_SECOND_CURRENCY]: (state, { payload }) => ({
+    ...state,
+    ...payload,
+  }),
+  [GET_CUSTOM_EXCHANGE_RATE]: (state, { payload }) => ({
+    ...state,
+    ...payload,
   }),
   [SET_LOADING]: (state) => ({ ...state, loading: true }),
   DEFAULT: (state) => state,
