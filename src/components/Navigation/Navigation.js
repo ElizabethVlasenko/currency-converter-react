@@ -30,17 +30,6 @@ export default function Navigation() {
             Home
           </NavLink>
           <NavLink
-            to="/currency-converter"
-            exact="true"
-            className={({ isActive }) =>
-              isActive
-                ? "navigation_item navigation_active-link"
-                : "navigation_item"
-            }
-          >
-            Exchange
-          </NavLink>
-          <NavLink
             to="/about"
             exact="true"
             className={({ isActive }) =>
@@ -60,13 +49,13 @@ export default function Navigation() {
         }
       >
         <p>
-          To use API request temporary access to the demo server by{" "}
+          To use the API, request temporary access to the demo server{" "}
           <a
             href="https://cors-anywhere.herokuapp.com/corsdemo"
             target="_blank"
             rel="noreferrer"
           >
-            link
+            here
           </a>
         </p>
         <span onClick={toggleAlert}>X</span>

@@ -26,16 +26,7 @@ root.render(
             </CurrencyConverterState>
           }
         />
-        <Route
-          path="/currency-converter"
-          element={
-            <CurrencyConverterState>
-              <Navigation />
-              <CurrencyConversion></CurrencyConversion>
-              <Footer />
-            </CurrencyConverterState>
-          }
-        />
+
         <Route path="*" redirect="/" />
       </Routes>
     </BrowserRouter>
