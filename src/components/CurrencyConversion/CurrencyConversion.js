@@ -72,6 +72,31 @@ export default function CurrencyConversion() {
             onChange={CurrencyConverter.setEUR_UAH}
           ></input>
         </div>
+        <div className="currencyConversion_GBP">
+          <h5 className="currencyConversion_title">GBP UAH Converter</h5>
+          <label className="currencyConversion_label" htmlFor={"GBP"}>
+            {" "}
+            GBP{" "}
+          </label>
+          <input
+            className="currencyConversion_input"
+            id={"GBP"}
+            type={"number"}
+            value={CurrencyConverter.GBP}
+            onChange={CurrencyConverter.setGBP}
+          ></input>
+          <label className="currencyConversion_label" htmlFor={"GBP_UAH"}>
+            {" "}
+            UAH{" "}
+          </label>
+          <input
+            className="currencyConversion_input"
+            id={"GBP_UAH"}
+            type={"number"}
+            value={CurrencyConverter.GBP_UAH}
+            onChange={CurrencyConverter.setGBP_UAH}
+          ></input>{" "}
+        </div>
         <div className="currencyConversion_any">
           <h5 className="currencyConversion_title">Any currency Converter</h5>
           <select

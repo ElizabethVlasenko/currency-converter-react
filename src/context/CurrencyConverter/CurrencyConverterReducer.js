@@ -11,6 +11,9 @@ import {
   SET_FIRST_CURRENCY,
   SET_SECOND_CURRENCY,
   GET_CUSTOM_EXCHANGE_RATE,
+  GET_GBP_EXCHANGE_RATE,
+  SET_GBP_VALUE,
+  SET_GBP_UAH_VALUE,
 } from "../types";
 
 const handlers = {
@@ -28,6 +31,13 @@ const handlers = {
     loading: false,
     EUR_UAH: payload.EUR_UAH,
   }),
+  [GET_GBP_EXCHANGE_RATE]: (state, { payload }) => ({
+    ...state,
+    GBPtoUAH: payload.GBP_UAH,
+    UAHtoGBP: payload.UAH_GBP,
+    loading: false,
+    GBP_UAH: payload.GBP_UAH,
+  }),
   [SET_USD_VALUE]: (state, { payload }) => ({
     ...state,
     ...payload,
@@ -41,6 +51,14 @@ const handlers = {
     ...payload,
   }),
   [SET_EUR_UAH_VALUE]: (state, { payload }) => ({
+    ...state,
+    ...payload,
+  }),
+  [SET_GBP_VALUE]: (state, { payload }) => ({
+    ...state,
+    ...payload,
+  }),
+  [SET_GBP_UAH_VALUE]: (state, { payload }) => ({
     ...state,
     ...payload,
   }),

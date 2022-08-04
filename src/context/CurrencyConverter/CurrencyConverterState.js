@@ -13,6 +13,9 @@ import {
   SET_SECOND_CURRENCY_NAME,
   SET_SECOND_CURRENCY,
   GET_CUSTOM_EXCHANGE_RATE,
+  GET_GBP_EXCHANGE_RATE,
+  SET_GBP_VALUE,
+  SET_GBP_UAH_VALUE,
 } from "../types";
 import { CurrencyConverterReducer } from "./CurrencyConverterReducer";
 import { CurrencyConverterContext } from "./CurrencyConverterContext";
@@ -30,6 +33,10 @@ export const CurrencyConverterState = ({ children }) => {
     UAHtoEUR: null,
     EUR: 1,
     EUR_UAH: 1,
+    GBPtoUAH: null,
+    UAHtoGBP: null,
+    GBP: 1,
+    GBP_UAH: 1,
     loading: false,
     allCurrencies: { ...data },
     firstCurrencyName: "ALL",
@@ -106,6 +113,34 @@ export const CurrencyConverterState = ({ children }) => {
     });
   };
 
+  const getGBPExchangeRate = async () => {
+    const response = await axios.get(
+      "https://cors-anywhere.herokuapp.com/https://free.currconv.com/api/v7/convert?q=GBP_UAH,UAH_GBP&compact=ultra&apiKey=" +
+        API_KEY
+    );
+    const data = dataToThreeFixed(response.data);
+
+    localStorage.setItem("GBPtoUAH", data.GBP_UAH);
+    localStorage.setItem("UAHtoGBP", data.UAH_GBP);
+
+    dispatch({
+      type: GET_GBP_EXCHANGE_RATE,
+      payload: { ...data },
+    });
+  };
+
+  const getLocalGBPExchangeRate = () => {
+    setLoading();
+    let data = {
+      GBP_UAH: localStorage.getItem("GBPtoUAH"),
+      UAH_GBP: localStorage.getItem("UAHtoGBP"),
+    };
+    dispatch({
+      type: GET_GBP_EXCHANGE_RATE,
+      payload: { ...data },
+    });
+  };
+
   const setLoading = () => {
     dispatch({
       type: SET_LOADING,
@@ -121,6 +156,7 @@ export const CurrencyConverterState = ({ children }) => {
       setLoading();
       getEURExchangeRate();
       getUSDExchangeRate();
+      getGBPExchangeRate();
       const expiresIn = 3600000;
       const expirationDate = new Date(new Date().getTime() + expiresIn);
       localStorage.setItem("expirationDate", expirationDate);
@@ -128,6 +164,7 @@ export const CurrencyConverterState = ({ children }) => {
       setLoading();
       getLocalUSDExchangeRate();
       getLocalEURExchangeRate();
+      getLocalGBPExchangeRate();
     }
   };
 
@@ -173,10 +210,28 @@ export const CurrencyConverterState = ({ children }) => {
 
   const setEUR_UAH = (e) => {
     let EUR_UAH = toCurrencyFormat(e.target.value);
-    let EUR = toFixedFloat(state.EURtoUAH * EUR_UAH);
+    let EUR = toFixedFloat(state.UAHtoEUR * EUR_UAH);
     dispatch({
       type: SET_EUR_UAH_VALUE,
       payload: { EUR, EUR_UAH },
+    });
+  };
+
+  const setGBP = (e) => {
+    let GBP = toCurrencyFormat(e.target.value);
+    let GBP_UAH = toFixedFloat(state.GBPtoUAH * GBP);
+    dispatch({
+      type: SET_GBP_VALUE,
+      payload: { GBP, GBP_UAH },
+    });
+  };
+
+  const setGBP_UAH = (e) => {
+    let GBP_UAH = toCurrencyFormat(e.target.value);
+    let GBP = toFixedFloat(state.UAHtoEUR * GBP_UAH);
+    dispatch({
+      type: SET_GBP_UAH_VALUE,
+      payload: { GBP, GBP_UAH },
     });
   };
 
@@ -276,6 +331,10 @@ export const CurrencyConverterState = ({ children }) => {
     UAHtoEUR,
     EUR,
     EUR_UAH,
+    GBP,
+    GBP_UAH,
+    GBPtoUAH,
+    UAHtoGBP,
     loading,
     allCurrencies,
     firstCurrency,
@@ -296,6 +355,10 @@ export const CurrencyConverterState = ({ children }) => {
         UAHtoEUR,
         EUR,
         EUR_UAH,
+        GBP,
+        GBP_UAH,
+        GBPtoUAH,
+        UAHtoGBP,
         loading,
         allCurrencies,
         firstCurrency,
@@ -311,6 +374,8 @@ export const CurrencyConverterState = ({ children }) => {
         setUSD_UAH,
         setEUR,
         setEUR_UAH,
+        setGBP,
+        setGBP_UAH,
       }}
     >
       {children}
