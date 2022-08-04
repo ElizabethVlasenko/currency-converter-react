@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { CurrencyConverterContext } from "../../context/CurrencyConverter/CurrencyConverterContext";
 import "./ExchangeRate.scss";
 

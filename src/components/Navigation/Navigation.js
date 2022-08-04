@@ -1,20 +1,56 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ExchangeRate from "../ExchangeRate/ExchangeRate";
+import { NavLink } from "react-router-dom";
 import "./Navigation.scss";
+import { CurrencyConverterContext } from "../../context/CurrencyConverter/CurrencyConverterContext";
 
 export default function Navigation() {
   const [AlertShow, setAlertShow] = useState(true);
   const toggleAlert = () => {
     setAlertShow(!AlertShow);
   };
+  const CurrencyConverter = useContext(CurrencyConverterContext);
+
+  useEffect(() => {
+    CurrencyConverter.getCurrencyExchangeRate();
+  }, []);
 
   return (
     <React.Fragment>
       <div className="navigation_container">
         <nav className="navigation_list">
-          <a className="navigation_item">Home</a>
-          <a className="navigation_item">Exchange</a>
-          <a className="navigation_item">About US</a>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "navigation_item navigation_active-link"
+                : "navigation_item"
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/currency-converter"
+            exact="true"
+            className={({ isActive }) =>
+              isActive
+                ? "navigation_item navigation_active-link"
+                : "navigation_item"
+            }
+          >
+            Exchange
+          </NavLink>
+          <NavLink
+            to="/about"
+            exact="true"
+            className={({ isActive }) =>
+              isActive
+                ? "navigation_item navigation_active-link"
+                : "navigation_item"
+            }
+          >
+            About Project
+          </NavLink>
         </nav>
         <ExchangeRate></ExchangeRate>{" "}
       </div>
@@ -28,6 +64,7 @@ export default function Navigation() {
           <a
             href="https://cors-anywhere.herokuapp.com/corsdemo"
             target="_blank"
+            rel="noreferrer"
           >
             link
           </a>

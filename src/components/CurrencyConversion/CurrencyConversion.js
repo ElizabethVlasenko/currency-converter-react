@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { CurrencyConverterContext } from "../../context/CurrencyConverter/CurrencyConverterContext";
 import "./CurrencyConversion.scss";
 
@@ -13,10 +13,6 @@ export default function CurrencyConversion() {
       );
     }
   );
-
-  useEffect(() => {
-    CurrencyConverter.getCurrencyExchangeRate();
-  }, []);
 
   return (
     <div className="currencyConversion_container">

@@ -58,4 +58,18 @@
   border-right: #fff 1px solid;
   text-align: center;
   display: inline-block;
+  text-decoration: none;
+  color: #fff;
+
+  &.navigation_active-link {
+    background-color: #cae6b2;
+    color: #27490e;
+    font-weight: 700;
+  }
+
+  &:hover {
+    background-color: #cae6b2;
+    color: #27490e;
+    transition: all 0.6s ease-in-out;
+  }
 }
