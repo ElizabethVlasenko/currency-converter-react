@@ -1,0 +1,9 @@
+.footer-container {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  padding: 15px 30px;
+  color: #fff;
+  background-color: #8ed15e;
+  box-sizing: border-box;
+}
