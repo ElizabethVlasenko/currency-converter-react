@@ -56,8 +56,8 @@ export default function About() {
         <h3 className="about_subtitle">Design</h3>
         <p className="about_text">
           Design of this page was based on technical task and didn't contain a
-          certain prototype. I've chosen green colors that are commonly
-          associated with money.
+          certain prototype. I've chosen purple colors that are commonly
+          associated with luxury.
         </p>
         <h4 className="about_sub-subtitle">Accessability</h4>
         <p className="about_text">

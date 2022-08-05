@@ -1,12 +1,16 @@
+@import "../../colourScheme/colourScheme.scss";
+
 .currencyConversion_container {
-  background-color: #cae6b2;
-  padding: 20px 150px;
+  color: $text-colour;
+  padding: 15px 150px;
+  height: 87.5vh;
+  box-sizing: border-box;
+  background-color: $light-bg-colour;
 }
 
 .currencyConversion_header {
   margin: 20px 0;
   text-align: center;
-  color: #27490e;
   font-size: 25px;
   text-transform: uppercase;
 }
@@ -18,7 +22,6 @@
 }
 
 .currencyConversion_title {
-  color: #fff;
   margin: 0;
   text-align: center;
   font-weight: bold;
@@ -29,8 +32,8 @@
 .currencyConversion_EUR,
 .currencyConversion_GBP,
 .currencyConversion_any {
-  background-color: #8ed15e;
-  border: #fff 2px solid;
+  background-color: $light-bg-colour;
+  border: $border-colour 2px solid;
   border-radius: 15px;
   padding: 20px;
   margin-bottom: 20px;
@@ -41,23 +44,21 @@
 .currencyConversion_label {
   margin-right: 10px;
   font-weight: 500;
-  color: #fff;
 }
 
 .currencyConversion_input {
-  border: #fff 2px solid;
+  border: $border-colour 2px solid;
   border-radius: 15px;
   padding: 5px 10px;
-  color: #27490e;
   font-size: 15px;
   margin-top: 15px;
+  background-color: $light-bg-colour;
 
   & + .currencyConversion_label {
     margin-left: 50px;
   }
 
   &.currencyConversion_select {
-    background-color: #cae6b2;
     width: 206px;
     margin: 0 50px 0 0;
   }
@@ -65,14 +66,13 @@
 
 .currencyConversion_info {
   font-size: 15px;
-  color: #fff;
   margin: 15px 0 0 0;
 }
 
 .currencyConversion_loader {
   display: inline-block;
-  border: 2px solid #cae6b2;
-  border-top: 2px solid #27490e;
+  border: 2px solid $light-bg-colour;
+  border-top: 2px solid $border-colour;
   border-radius: 50%;
   width: 10px;
   height: 10px;

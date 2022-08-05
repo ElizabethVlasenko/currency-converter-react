@@ -1,8 +1,10 @@
+@import "../../colourScheme/colourScheme.scss";
+
 .footer-container {
   width: 100%;
-  bottom: 0;
   padding: 15px 30px;
-  color: #fff;
-  background-color: #8ed15e;
+  color: $text-colour;
+  background-color: $bg-colour;
   box-sizing: border-box;
+  // border-top: #898952 2px solid;
 }

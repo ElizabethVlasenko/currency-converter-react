@@ -1,10 +1,12 @@
+@import "../../colourScheme/colourScheme.scss";
+
 .navigation_container {
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #79c942;
-  color: #fff;
+  background-color: $bg-colour;
+  color: $text-colour;
   height: 50px;
   z-index: 20;
 }
@@ -14,10 +16,10 @@
   width: 100%;
   position: absolute;
   top: 50px;
-  background-color: #c94242;
+  color: #fff;
+  background-color: $bg-warning-colour;
   z-index: 10;
   transition: all 1s ease-in-out;
-  color: #fff;
 
   & p {
     padding: 0;
@@ -55,21 +57,19 @@
   width: 150px;
   box-sizing: border-box;
   padding-top: 15px;
-  border-right: #fff 1px solid;
+  border-right: $border-colour 1px solid;
   text-align: center;
   display: inline-block;
   text-decoration: none;
-  color: #fff;
+  color: $text-colour;
 
   &.navigation_active-link {
-    background-color: #cae6b2;
-    color: #27490e;
+    background-color: $light-bg-colour;
     font-weight: 700;
   }
 
   &:hover {
-    background-color: #cae6b2;
-    color: #27490e;
+    background-color: $light-bg-colour;
     transition: all 0.6s ease-in-out;
   }
 }

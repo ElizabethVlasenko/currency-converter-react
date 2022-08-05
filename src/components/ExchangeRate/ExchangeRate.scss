@@ -1,3 +1,5 @@
+@import "../../colourScheme/colourScheme.scss";
+
 .exchangeRate_container {
   width: 45%;
 }
@@ -11,8 +13,8 @@
 }
 
 .exchangeRate_loader {
-  border: 2px solid #cae6b2;
-  border-top: 2px solid #27490e;
+  border: 2px solid $light-bg-colour;
+  border-top: 2px solid $border-colour;
   border-radius: 50%;
   width: 10px;
   height: 10px;
